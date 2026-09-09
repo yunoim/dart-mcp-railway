@@ -20,7 +20,7 @@ const Input = z.object({
   start: z
     .string()
     .optional()
-    .describe("기간 시작 (YYYY-MM-DD / YYYYMMDD). 미지정 시 최근 3년."),
+    .describe("기간 시작 (YYYY-MM-DD / YYYYMMDD). 미지정 시 최근 1년."),
   end: z
     .string()
     .optional()
@@ -30,8 +30,8 @@ const Input = z.object({
     .int()
     .min(1)
     .max(2000)
-    .default(200)
-    .describe("최대 반환 행 수 (각 kind 별). 대형 상장사는 누적 수만 건 → 디폴트 200."),
+    .default(50)
+    .describe("최대 반환 행 수 (각 kind 별). 대형 상장사는 누적 수만 건 → 디폴트 50."),
 });
 
 function normalizeRcept(s: string | undefined): string | null {
@@ -42,7 +42,7 @@ function normalizeRcept(s: string | undefined): string | null {
 
 function defaultStart(): string {
   const d = new Date();
-  d.setFullYear(d.getFullYear() - 3);
+  d.setFullYear(d.getFullYear() - 1);
   const y = d.getFullYear();
   const m = String(d.getMonth() + 1).padStart(2, "0");
   const day = String(d.getDate()).padStart(2, "0");
